@@ -41,7 +41,7 @@ metadata:
     capabilities: Basic Install
     categories: Integration & Delivery
     containerImage: quay.io/kuadrant/kuadrant-operator:latest
-    createdAt: "2023-10-20T10:46:36Z"
+    createdAt: "2023-10-24T16:14:47Z"
     operators.operatorframework.io/builder: operator-sdk-v1.28.1
     operators.operatorframework.io/project_layout: go.kubebuilder.io/v3
     repository: https://github.com/Kuadrant/kuadrant-operator
@@ -363,7 +363,7 @@ spec:
             spec:
               containers:
               - args:
-                - --config=controller_manager_config.yaml
+                - --leader-elect
                 command:
                 - /manager
                 env:
@@ -395,18 +395,10 @@ spec:
                     memory: 200Mi
                 securityContext:
                   allowPrivilegeEscalation: false
-                volumeMounts:
-                - mountPath: /controller_manager_config.yaml
-                  name: manager-config
-                  subPath: controller_manager_config.yaml
               securityContext:
                 runAsNonRoot: true
               serviceAccountName: kuadrant-operator-controller-manager
               terminationGracePeriodSeconds: 10
-              volumes:
-              - configMap:
-                  name: kuadrant-operator-manager-config
-                name: manager-config
       permissions:
       - rules:
         - apiGroups:
