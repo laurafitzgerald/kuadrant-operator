@@ -64,16 +64,16 @@ func (m *HTTPRouteParentRefsEventMapper) mapToPolicyRequest(obj client.Object, p
 			continue
 		}
 		for _, policy := range policies.GetItems() {
-			targetRef := policy.GetTargetRef()
-			if !common.IsTargetRefGateway(targetRef) {
+			policyParentRef := policy.GetParentRef()
+			if !common.IsParentRefGateway(policyParentRef) {
 				continue
 			}
-			targetRefNamespace := targetRef.Namespace
+			targetRefNamespace := policyParentRef.Namespace
 			if targetRefNamespace == nil {
 				ns := gatewayapiv1beta1.Namespace(policy.GetNamespace())
 				targetRefNamespace = &ns
 			}
-			if *parentRefNamespace == *targetRefNamespace && parentRef.Name == targetRef.Name {
+			if *parentRefNamespace == *targetRefNamespace && parentRef.Name == policyParentRef.Name {
 				obj, _ := policy.(client.Object)
 				requests = append(requests, reconcile.Request{NamespacedName: client.ObjectKeyFromObject(obj)})
 			}

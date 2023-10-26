@@ -22,31 +22,29 @@ import (
 	"sort"
 
 	"github.com/go-logr/logr"
+	"github.com/kuadrant/kuadrant-operator/pkg/common"
 	"k8s.io/apimachinery/pkg/api/meta"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/reconcile"
-	gatewayapiv1alpha2 "sigs.k8s.io/gateway-api/apis/v1alpha2"
-	gatewayapiv1beta1 "sigs.k8s.io/gateway-api/apis/v1beta1"
-
-	"github.com/kuadrant/kuadrant-operator/pkg/common"
+	gatewayapiv1 "sigs.k8s.io/gateway-api/apis/v1"
 )
 
-type TargetRefReconciler struct {
+type ParentRefReconciler struct {
 	*BaseReconciler
 }
 
 // blank assignment to verify that BaseReconciler implements reconcile.Reconciler
-var _ reconcile.Reconciler = &TargetRefReconciler{}
+var _ reconcile.Reconciler = &ParentRefReconciler{}
 
-func (r *TargetRefReconciler) Reconcile(context.Context, ctrl.Request) (ctrl.Result, error) {
+func (r *ParentRefReconciler) Reconcile(context.Context, ctrl.Request) (ctrl.Result, error) {
 	return reconcile.Result{}, nil
 }
 
-func (r *TargetRefReconciler) FetchValidGateway(ctx context.Context, key client.ObjectKey) (*gatewayapiv1beta1.Gateway, error) {
+func (r *ParentRefReconciler) FetchValidGateway(ctx context.Context, key client.ObjectKey) (*gatewayapiv1.Gateway, error) {
 	logger, _ := logr.FromContext(ctx)
 
-	gw := &gatewayapiv1beta1.Gateway{}
+	gw := &gatewayapiv1.Gateway{}
 	err := r.Client().Get(ctx, key, gw)
 	logger.V(1).Info("FetchValidGateway", "gateway", key, "err", err)
 	if err != nil {
@@ -60,10 +58,10 @@ func (r *TargetRefReconciler) FetchValidGateway(ctx context.Context, key client.
 	return gw, nil
 }
 
-func (r *TargetRefReconciler) FetchValidHTTPRoute(ctx context.Context, key client.ObjectKey) (*gatewayapiv1beta1.HTTPRoute, error) {
+func (r *ParentRefReconciler) FetchValidHTTPRoute(ctx context.Context, key client.ObjectKey) (*gatewayapiv1.HTTPRoute, error) {
 	logger, _ := logr.FromContext(ctx)
 
-	httpRoute := &gatewayapiv1beta1.HTTPRoute{}
+	httpRoute := &gatewayapiv1.HTTPRoute{}
 	err := r.Client().Get(ctx, key, httpRoute)
 	logger.V(1).Info("FetchValidHTTPRoute", "httpRoute", key, "err", err)
 	if err != nil {
@@ -77,30 +75,30 @@ func (r *TargetRefReconciler) FetchValidHTTPRoute(ctx context.Context, key clien
 	return httpRoute, nil
 }
 
-// FetchValidTargetRef fetches the target reference object and checks the status is valid
-func (r *TargetRefReconciler) FetchValidTargetRef(ctx context.Context, targetRef gatewayapiv1alpha2.PolicyTargetReference, defaultNs string) (client.Object, error) {
+// FetchValidParentRef fetches the parent reference object and checks the status is valid
+func (r *ParentRefReconciler) FetchValidParentRef(ctx context.Context, parentRef gatewayapiv1.ParentReference, defaultNs string) (client.Object, error) {
 	tmpNS := defaultNs
-	if targetRef.Namespace != nil {
-		tmpNS = string(*targetRef.Namespace)
+	if parentRef.Namespace != nil {
+		tmpNS = string(*parentRef.Namespace)
 	}
 
-	objKey := client.ObjectKey{Name: string(targetRef.Name), Namespace: tmpNS}
+	objKey := client.ObjectKey{Name: string(parentRef.Name), Namespace: tmpNS}
 
-	if common.IsTargetRefHTTPRoute(targetRef) {
+	if common.IsParentRefHTTPRoute(parentRef) {
 		return r.FetchValidHTTPRoute(ctx, objKey)
-	} else if common.IsTargetRefGateway(targetRef) {
+	} else if common.IsParentRefGateway(parentRef) {
 		return r.FetchValidGateway(ctx, objKey)
 	}
 
-	return nil, fmt.Errorf("FetchValidTargetRef: targetRef (%v) to unknown network resource", targetRef)
+	return nil, fmt.Errorf("FetchValidParentRef: parentRef (%v) to unknown network resource", parentRef)
 }
 
 // FetchAcceptedGatewayHTTPRoutes returns the list of HTTPRoutes that have been accepted as children of a gateway.
-func (r *TargetRefReconciler) FetchAcceptedGatewayHTTPRoutes(ctx context.Context, gwKey client.ObjectKey) (routes []gatewayapiv1beta1.HTTPRoute) {
+func (r *ParentRefReconciler) FetchAcceptedGatewayHTTPRoutes(ctx context.Context, gwKey client.ObjectKey) (routes []gatewayapiv1.HTTPRoute) {
 	logger, _ := logr.FromContext(ctx)
 	logger = logger.WithName("FetchAcceptedGatewayHTTPRoutes").WithValues("gateway", gwKey)
 
-	routeList := &gatewayapiv1beta1.HTTPRouteList{}
+	routeList := &gatewayapiv1.HTTPRouteList{}
 	err := r.Client().List(ctx, routeList)
 	if err != nil {
 		logger.V(1).Info("failed to list httproutes", "err", err)
@@ -109,7 +107,7 @@ func (r *TargetRefReconciler) FetchAcceptedGatewayHTTPRoutes(ctx context.Context
 
 	for idx := range routeList.Items {
 		route := routeList.Items[idx]
-		routeParentStatus, found := common.Find(route.Status.RouteStatus.Parents, func(p gatewayapiv1beta1.RouteParentStatus) bool {
+		routeParentStatus, found := common.Find(route.Status.RouteStatus.Parents, func(p gatewayapiv1.RouteParentStatus) bool {
 			return *p.ParentRef.Kind == ("Gateway") &&
 				((p.ParentRef.Namespace == nil && route.GetNamespace() == gwKey.Namespace) || string(*p.ParentRef.Namespace) == gwKey.Namespace) &&
 				string(p.ParentRef.Name) == gwKey.Name
@@ -125,10 +123,10 @@ func (r *TargetRefReconciler) FetchAcceptedGatewayHTTPRoutes(ctx context.Context
 	return
 }
 
-// TargetedGatewayKeys returns the list of gateways that are being referenced from the target.
-func (r *TargetRefReconciler) TargetedGatewayKeys(_ context.Context, targetNetworkObject client.Object) []client.ObjectKey {
-	switch obj := targetNetworkObject.(type) {
-	case *gatewayapiv1beta1.HTTPRoute:
+// ParentGatewayKeys returns the list of gateways that are being referenced from the parent.
+func (r *ParentRefReconciler) ParentGatewayKeys(_ context.Context, parentNetworkObject client.Object) []client.ObjectKey {
+	switch obj := parentNetworkObject.(type) {
+	case *gatewayapiv1.HTTPRoute:
 		gwKeys := make([]client.ObjectKey, 0)
 		for _, parentRef := range obj.Spec.CommonRouteSpec.ParentRefs {
 			gwKey := client.ObjectKey{Name: string(parentRef.Name), Namespace: obj.Namespace}
@@ -139,35 +137,35 @@ func (r *TargetRefReconciler) TargetedGatewayKeys(_ context.Context, targetNetwo
 		}
 		return gwKeys
 
-	case *gatewayapiv1beta1.Gateway:
-		return []client.ObjectKey{client.ObjectKeyFromObject(targetNetworkObject)}
+	case *gatewayapiv1.Gateway:
+		return []client.ObjectKey{client.ObjectKeyFromObject(parentNetworkObject)}
 
-	// If the targetNetworkObject is nil, we don't fail; instead, we return an empty slice of gateway keys.
+	// If the parentNetworkObject is nil, we don't fail; instead, we return an empty slice of gateway keys.
 	// This is for supporting a smooth cleanup in cases where the network object has been deleted already
 	default:
 		return []client.ObjectKey{}
 	}
 }
 
-// ReconcileTargetBackReference adds policy key in annotations of the target object
-func (r *TargetRefReconciler) ReconcileTargetBackReference(ctx context.Context, policyKey client.ObjectKey, targetNetworkObject client.Object, annotationName string) error {
+// ReconcileParentReference adds policy key in annotations of the parent object
+func (r *ParentRefReconciler) ReconcileParentReference(ctx context.Context, policyKey client.ObjectKey, parentNetworkObject client.Object, annotationName string) error {
 	logger, _ := logr.FromContext(ctx)
 
-	targetNetworkObjectKey := client.ObjectKeyFromObject(targetNetworkObject)
-	targetNetworkObjectKind := targetNetworkObject.GetObjectKind().GroupVersionKind()
+	parentNetworkObjectKey := client.ObjectKeyFromObject(parentNetworkObject)
+	parentNetworkObjectKind := parentNetworkObject.GetObjectKind().GroupVersionKind()
 
 	// Reconcile the back reference:
-	objAnnotations := common.ReadAnnotationsFromObject(targetNetworkObject)
+	objAnnotations := common.ReadAnnotationsFromObject(parentNetworkObject)
 
 	if val, ok := objAnnotations[annotationName]; ok {
 		if val != policyKey.String() {
-			return fmt.Errorf("the %s target %s is already referenced by policy %s", targetNetworkObjectKind, targetNetworkObjectKey, policyKey.String())
+			return fmt.Errorf("the %s parent %s is already referenced by policy %s", parentNetworkObjectKind, parentNetworkObjectKey, policyKey.String())
 		}
 	} else {
 		objAnnotations[annotationName] = policyKey.String()
-		targetNetworkObject.SetAnnotations(objAnnotations)
-		err := r.UpdateResource(ctx, targetNetworkObject)
-		logger.V(1).Info("ReconcileTargetBackReference: update target object", "kind", targetNetworkObjectKind, "name", targetNetworkObjectKey, "err", err)
+		parentNetworkObject.SetAnnotations(objAnnotations)
+		err := r.UpdateResource(ctx, parentNetworkObject)
+		logger.V(1).Info("ReconcileParentReference: update parent object", "kind", parentNetworkObjectKind, "name", parentNetworkObjectKey, "err", err)
 		if err != nil {
 			return err
 		}
@@ -176,20 +174,20 @@ func (r *TargetRefReconciler) ReconcileTargetBackReference(ctx context.Context, 
 	return nil
 }
 
-func (r *TargetRefReconciler) DeleteTargetBackReference(ctx context.Context, targetNetworkObject client.Object, annotationName string) error {
+func (r *ParentRefReconciler) DeleteParentReference(ctx context.Context, parentNetworkObject client.Object, annotationName string) error {
 	logger, _ := logr.FromContext(ctx)
 
-	targetNetworkObjectKey := client.ObjectKeyFromObject(targetNetworkObject)
-	targetNetworkObjectKind := targetNetworkObject.GetObjectKind().GroupVersionKind()
+	parentNetworkObjectKey := client.ObjectKeyFromObject(parentNetworkObject)
+	parentNetworkObjectKind := parentNetworkObject.GetObjectKind().GroupVersionKind()
 
 	// Reconcile the back reference:
-	objAnnotations := common.ReadAnnotationsFromObject(targetNetworkObject)
+	objAnnotations := common.ReadAnnotationsFromObject(parentNetworkObject)
 
 	if _, ok := objAnnotations[annotationName]; ok {
 		delete(objAnnotations, annotationName)
-		targetNetworkObject.SetAnnotations(objAnnotations)
-		err := r.UpdateResource(ctx, targetNetworkObject)
-		logger.V(1).Info("DeleteTargetBackReference: update network resource", "kind", targetNetworkObjectKind, "name", targetNetworkObjectKey, "err", err)
+		parentNetworkObject.SetAnnotations(objAnnotations)
+		err := r.UpdateResource(ctx, parentNetworkObject)
+		logger.V(1).Info("DeleteParentReference: update network resource", "kind", parentNetworkObjectKind, "name", parentNetworkObjectKey, "err", err)
 		if err != nil {
 			return err
 		}
@@ -203,11 +201,11 @@ func (r *TargetRefReconciler) DeleteTargetBackReference(ctx context.Context, tar
 // this list of policy refs; nevertheless, the actual order of returned policy refs depends on the order the policy refs
 // appear in the annotations of the gateways.
 // Only gateways with status programmed are considered.
-func (r *TargetRefReconciler) GetAllGatewayPolicyRefs(ctx context.Context, policyRefsConfig common.PolicyRefsConfig) ([]client.ObjectKey, error) {
+func (r *ParentRefReconciler) GetAllGatewayPolicyRefs(ctx context.Context, policyRefsConfig common.PolicyRefsConfig) ([]client.ObjectKey, error) {
 	var uniquePolicyRefs map[string]struct{}
 	var policyRefs []client.ObjectKey
 
-	gwList := &gatewayapiv1beta1.GatewayList{}
+	gwList := &gatewayapiv1.GatewayList{}
 	if err := r.Client().List(ctx, gwList); err != nil {
 		return nil, err
 	}
@@ -240,16 +238,16 @@ func (r *TargetRefReconciler) GetAllGatewayPolicyRefs(ctx context.Context, polic
 // * list of gateways to which the policy applies for the first time
 // * list of gateways to which the policy no longer applies
 // * list of gateways to which the policy still applies
-func (r *TargetRefReconciler) ComputeGatewayDiffs(ctx context.Context, policy common.KuadrantPolicy, targetNetworkObject client.Object, policyRefsConfig common.PolicyRefsConfig) (*GatewayDiff, error) {
+func (r *ParentRefReconciler) ComputeGatewayDiffs(ctx context.Context, policy common.KuadrantPolicy, parentNetworkObject client.Object, policyRefsConfig common.PolicyRefsConfig) (*GatewayDiff, error) {
 	logger, _ := logr.FromContext(ctx)
 
 	var gwKeys []client.ObjectKey
 	if policy.GetDeletionTimestamp() == nil {
-		gwKeys = r.TargetedGatewayKeys(ctx, targetNetworkObject)
+		gwKeys = r.ParentGatewayKeys(ctx, parentNetworkObject)
 	}
 
 	// TODO(rahulanand16nov): maybe think about optimizing it with a label later
-	allGwList := &gatewayapiv1beta1.GatewayList{}
+	allGwList := &gatewayapiv1.GatewayList{}
 	err := r.Client().List(ctx, allGwList)
 	if err != nil {
 		return nil, err
@@ -272,7 +270,7 @@ func (r *TargetRefReconciler) ComputeGatewayDiffs(ctx context.Context, policy co
 
 // ReconcileGatewayPolicyReferences updates the annotations in the Gateway resources that list to all the policies
 // that directly or indirectly target the gateway, based upon a pre-computed gateway diff object
-func (r *TargetRefReconciler) ReconcileGatewayPolicyReferences(ctx context.Context, policy client.Object, gwDiffObj *GatewayDiff) error {
+func (r *ParentRefReconciler) ReconcileGatewayPolicyReferences(ctx context.Context, policy client.Object, gwDiffObj *GatewayDiff) error {
 	logger, _ := logr.FromContext(ctx)
 
 	// delete the policy from the annotations of the gateways no longer target by the policy
