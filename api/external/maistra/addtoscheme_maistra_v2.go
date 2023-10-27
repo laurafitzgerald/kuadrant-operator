@@ -1,7 +1,7 @@
 package apis
 
 import (
-	v2 "github.com/kuadrant/kuadrant-operator/api/external/maistra/v2"
+	v2 "github.com/laurafitzgerald/kuadrant-operator/api/external/maistra/v2"
 )
 
 func init() {

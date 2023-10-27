@@ -12,11 +12,11 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	gatewayapiv1beta1 "sigs.k8s.io/gateway-api/apis/v1beta1"
 
-	kuadrantv1beta2 "github.com/kuadrant/kuadrant-operator/api/v1beta2"
-	"github.com/kuadrant/kuadrant-operator/pkg/common"
-	"github.com/kuadrant/kuadrant-operator/pkg/reconcilers"
-	"github.com/kuadrant/kuadrant-operator/pkg/rlptools"
-	"github.com/kuadrant/kuadrant-operator/pkg/rlptools/wasm"
+	kuadrantv1beta2 "github.com/laurafitzgerald/kuadrant-operator/api/v1beta2"
+	"github.com/laurafitzgerald/kuadrant-operator/pkg/common"
+	"github.com/laurafitzgerald/kuadrant-operator/pkg/reconcilers"
+	"github.com/laurafitzgerald/kuadrant-operator/pkg/rlptools"
+	"github.com/laurafitzgerald/kuadrant-operator/pkg/rlptools/wasm"
 )
 
 func (r *RateLimitPolicyReconciler) reconcileWASMPluginConf(ctx context.Context, rlp *kuadrantv1beta2.RateLimitPolicy, gwDiffObj *reconcilers.GatewayDiff) error {

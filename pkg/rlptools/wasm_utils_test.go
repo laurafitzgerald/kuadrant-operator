@@ -9,8 +9,8 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	gatewayapiv1beta1 "sigs.k8s.io/gateway-api/apis/v1beta1"
 
-	kuadrantv1beta2 "github.com/kuadrant/kuadrant-operator/api/v1beta2"
-	"github.com/kuadrant/kuadrant-operator/pkg/rlptools/wasm"
+	kuadrantv1beta2 "github.com/laurafitzgerald/kuadrant-operator/api/v1beta2"
+	"github.com/laurafitzgerald/kuadrant-operator/pkg/rlptools/wasm"
 )
 
 // TODO(eastizle): missing WASMPluginMutator tests

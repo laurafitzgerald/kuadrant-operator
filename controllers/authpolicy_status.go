@@ -13,7 +13,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	authorinoapi "github.com/kuadrant/authorino/api/v1beta2"
-	api "github.com/kuadrant/kuadrant-operator/api/v1beta2"
+	api "github.com/laurafitzgerald/kuadrant-operator/api/v1beta2"
 )
 
 const APAvailableConditionType string = "Available"

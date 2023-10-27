@@ -33,8 +33,8 @@ import (
 
 	authorinoopapi "github.com/kuadrant/authorino-operator/api/v1beta1"
 	authorinoapi "github.com/kuadrant/authorino/api/v1beta2"
-	maistraapis "github.com/kuadrant/kuadrant-operator/api/external/maistra"
 	limitadorv1alpha1 "github.com/kuadrant/limitador-operator/api/v1alpha1"
+	maistraapis "github.com/laurafitzgerald/kuadrant-operator/api/external/maistra"
 	istioextensionv1alpha1 "istio.io/client-go/pkg/apis/extensions/v1alpha1"
 	istionetworkingv1alpha3 "istio.io/client-go/pkg/apis/networking/v1alpha3"
 	istiosecurityv1beta1 "istio.io/client-go/pkg/apis/security/v1beta1"
@@ -49,11 +49,11 @@ import (
 
 	gatewayapiv1beta1 "sigs.k8s.io/gateway-api/apis/v1beta1"
 
-	kuadrantv1beta1 "github.com/kuadrant/kuadrant-operator/api/v1beta1"
-	kuadrantv1beta2 "github.com/kuadrant/kuadrant-operator/api/v1beta2"
-	"github.com/kuadrant/kuadrant-operator/controllers"
-	"github.com/kuadrant/kuadrant-operator/pkg/log"
-	"github.com/kuadrant/kuadrant-operator/pkg/reconcilers"
+	kuadrantv1beta1 "github.com/laurafitzgerald/kuadrant-operator/api/v1beta1"
+	kuadrantv1beta2 "github.com/laurafitzgerald/kuadrant-operator/api/v1beta2"
+	"github.com/laurafitzgerald/kuadrant-operator/controllers"
+	"github.com/laurafitzgerald/kuadrant-operator/pkg/log"
+	"github.com/laurafitzgerald/kuadrant-operator/pkg/reconcilers"
 	//+kubebuilder:scaffold:imports
 )
 

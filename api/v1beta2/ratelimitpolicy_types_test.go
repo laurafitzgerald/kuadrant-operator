@@ -10,7 +10,7 @@ import (
 	gatewayapiv1alpha2 "sigs.k8s.io/gateway-api/apis/v1alpha2"
 	gatewayapiv1beta1 "sigs.k8s.io/gateway-api/apis/v1beta1"
 
-	"github.com/kuadrant/kuadrant-operator/pkg/common"
+	"github.com/laurafitzgerald/kuadrant-operator/pkg/common"
 )
 
 func testBuildBasicRLP(name string, kind gatewayapiv1beta1.Kind) *RateLimitPolicy {

@@ -9,8 +9,8 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/reconcile"
 	gatewayapiv1beta1 "sigs.k8s.io/gateway-api/apis/v1beta1"
 
-	api "github.com/kuadrant/kuadrant-operator/api/v1beta2"
-	"github.com/kuadrant/kuadrant-operator/pkg/common"
+	api "github.com/laurafitzgerald/kuadrant-operator/api/v1beta2"
+	"github.com/laurafitzgerald/kuadrant-operator/pkg/common"
 )
 
 // HTTPRouteParentRefsEventMapper is an EventHandler that maps HTTPRoute events to policy events,

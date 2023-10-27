@@ -1,4 +1,4 @@
-module github.com/kuadrant/kuadrant-operator
+module github.com/laurafitzgerald/kuadrant-operator
 
 go 1.20
 

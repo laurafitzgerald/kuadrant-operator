@@ -6,7 +6,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/util/intstr"
 
-	v1 "github.com/kuadrant/kuadrant-operator/api/external/maistra/v1"
+	v1 "github.com/laurafitzgerald/kuadrant-operator/api/external/maistra/v1"
 )
 
 // ControlPlaneRuntimeConfig configures execution parameters for control plane

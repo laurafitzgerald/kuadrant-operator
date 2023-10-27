@@ -9,7 +9,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 
-	"github.com/kuadrant/kuadrant-operator/api/external/maistra/version"
+	"github.com/laurafitzgerald/kuadrant-operator/api/external/maistra/version"
 )
 
 type StatusBase struct {

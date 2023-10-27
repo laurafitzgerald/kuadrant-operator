@@ -19,11 +19,11 @@ import (
 	gatewayapiv1alpha2 "sigs.k8s.io/gateway-api/apis/v1alpha2"
 	gatewayapiv1beta1 "sigs.k8s.io/gateway-api/apis/v1beta1"
 
-	kuadrantv1beta2 "github.com/kuadrant/kuadrant-operator/api/v1beta2"
-	"github.com/kuadrant/kuadrant-operator/pkg/common"
-	"github.com/kuadrant/kuadrant-operator/pkg/rlptools"
-	"github.com/kuadrant/kuadrant-operator/pkg/rlptools/wasm"
 	limitadorv1alpha1 "github.com/kuadrant/limitador-operator/api/v1alpha1"
+	kuadrantv1beta2 "github.com/laurafitzgerald/kuadrant-operator/api/v1beta2"
+	"github.com/laurafitzgerald/kuadrant-operator/pkg/common"
+	"github.com/laurafitzgerald/kuadrant-operator/pkg/rlptools"
+	"github.com/laurafitzgerald/kuadrant-operator/pkg/rlptools/wasm"
 	"k8s.io/utils/ptr"
 )
 

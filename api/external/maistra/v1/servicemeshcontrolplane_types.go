@@ -3,7 +3,7 @@ package v1
 import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	"github.com/kuadrant/kuadrant-operator/api/external/maistra/status"
+	"github.com/laurafitzgerald/kuadrant-operator/api/external/maistra/status"
 )
 
 // EDIT THIS FILE!  THIS IS SCAFFOLDING FOR YOU TO OWN!

@@ -11,7 +11,7 @@ import (
 	gatewayapiv1beta1 "sigs.k8s.io/gateway-api/apis/v1beta1"
 
 	authorinoapi "github.com/kuadrant/authorino/api/v1beta2"
-	"github.com/kuadrant/kuadrant-operator/pkg/common"
+	"github.com/laurafitzgerald/kuadrant-operator/pkg/common"
 )
 
 type AuthSchemeSpec struct {

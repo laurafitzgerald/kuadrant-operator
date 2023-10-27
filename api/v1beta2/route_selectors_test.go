@@ -11,7 +11,7 @@ import (
 	"k8s.io/utils/ptr"
 	gatewayapiv1beta1 "sigs.k8s.io/gateway-api/apis/v1beta1"
 
-	"github.com/kuadrant/kuadrant-operator/pkg/common"
+	"github.com/laurafitzgerald/kuadrant-operator/pkg/common"
 )
 
 func TestRouteSelectors(t *testing.T) {

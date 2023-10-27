@@ -5,8 +5,8 @@ package istio
 import (
 	"testing"
 
-	maistrav1 "github.com/kuadrant/kuadrant-operator/api/external/maistra/v1"
-	maistrav2 "github.com/kuadrant/kuadrant-operator/api/external/maistra/v2"
+	maistrav1 "github.com/laurafitzgerald/kuadrant-operator/api/external/maistra/v1"
+	maistrav2 "github.com/laurafitzgerald/kuadrant-operator/api/external/maistra/v2"
 	"google.golang.org/protobuf/types/known/structpb"
 	"gotest.tools/assert"
 	istiomeshv1alpha1 "istio.io/api/mesh/v1alpha1"
