@@ -9,7 +9,7 @@ import (
 	"testing"
 
 	"github.com/go-logr/logr"
-	"github.com/kuadrant/kuadrant-operator/pkg/log"
+	"github.com/laurafitzgerald/kuadrant-operator/pkg/log"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 

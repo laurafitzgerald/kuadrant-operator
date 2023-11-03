@@ -14,7 +14,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client/fake"
 	gatewayapiv1 "sigs.k8s.io/gateway-api/apis/v1"
 
-	"github.com/kuadrant/kuadrant-operator/pkg/log"
+	"github.com/laurafitzgerald/kuadrant-operator/pkg/log"
 )
 
 func TestIstioWorkloadSelectorFromGateway(t *testing.T) {

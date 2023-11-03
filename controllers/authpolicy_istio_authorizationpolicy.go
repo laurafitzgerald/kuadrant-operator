@@ -17,9 +17,9 @@ import (
 	istiosecurity "istio.io/api/security/v1beta1"
 	istio "istio.io/client-go/pkg/apis/security/v1beta1"
 
-	api "github.com/kuadrant/kuadrant-operator/api/v1beta2"
-	"github.com/kuadrant/kuadrant-operator/pkg/common"
-	"github.com/kuadrant/kuadrant-operator/pkg/reconcilers"
+	api "github.com/laurafitzgerald/kuadrant-operator/api/v1beta2"
+	"github.com/laurafitzgerald/kuadrant-operator/pkg/common"
+	"github.com/laurafitzgerald/kuadrant-operator/pkg/reconcilers"
 	"k8s.io/utils/env"
 )
 

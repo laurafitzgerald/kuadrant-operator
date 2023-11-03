@@ -25,9 +25,9 @@ import (
 
 	"github.com/go-logr/logr"
 	authorinov1beta1 "github.com/kuadrant/authorino-operator/api/v1beta1"
-	maistrav1 "github.com/kuadrant/kuadrant-operator/api/external/maistra/v1"
-	maistrav2 "github.com/kuadrant/kuadrant-operator/api/external/maistra/v2"
 	limitadorv1alpha1 "github.com/kuadrant/limitador-operator/api/v1alpha1"
+	maistrav1 "github.com/laurafitzgerald/kuadrant-operator/api/external/maistra/v1"
+	maistrav2 "github.com/laurafitzgerald/kuadrant-operator/api/external/maistra/v2"
 	"golang.org/x/sync/errgroup"
 	iopv1alpha1 "istio.io/istio/operator/pkg/apis/istio/v1alpha1"
 	appsv1 "k8s.io/api/apps/v1"
@@ -40,11 +40,11 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 	gatewayapiv1 "sigs.k8s.io/gateway-api/apis/v1"
 
-	kuadrantv1beta1 "github.com/kuadrant/kuadrant-operator/api/v1beta1"
-	"github.com/kuadrant/kuadrant-operator/pkg/common"
-	"github.com/kuadrant/kuadrant-operator/pkg/istio"
-	"github.com/kuadrant/kuadrant-operator/pkg/log"
-	"github.com/kuadrant/kuadrant-operator/pkg/reconcilers"
+	kuadrantv1beta1 "github.com/laurafitzgerald/kuadrant-operator/api/v1beta1"
+	"github.com/laurafitzgerald/kuadrant-operator/pkg/common"
+	"github.com/laurafitzgerald/kuadrant-operator/pkg/istio"
+	"github.com/laurafitzgerald/kuadrant-operator/pkg/log"
+	"github.com/laurafitzgerald/kuadrant-operator/pkg/reconcilers"
 )
 
 const (

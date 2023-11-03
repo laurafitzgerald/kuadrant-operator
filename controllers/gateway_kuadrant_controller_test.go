@@ -14,8 +14,8 @@ import (
 	logf "sigs.k8s.io/controller-runtime/pkg/log"
 	gatewayapiv1 "sigs.k8s.io/gateway-api/apis/v1"
 
-	kuadrantv1beta1 "github.com/kuadrant/kuadrant-operator/api/v1beta1"
-	"github.com/kuadrant/kuadrant-operator/pkg/common"
+	kuadrantv1beta1 "github.com/laurafitzgerald/kuadrant-operator/api/v1beta1"
+	"github.com/laurafitzgerald/kuadrant-operator/pkg/common"
 )
 
 var _ = Describe("Kuadrant Gateway controller", func() {

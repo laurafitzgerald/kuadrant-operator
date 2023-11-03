@@ -1,7 +1,7 @@
 package v2
 
 import (
-	v1 "github.com/kuadrant/kuadrant-operator/api/external/maistra/v1"
+	v1 "github.com/laurafitzgerald/kuadrant-operator/api/external/maistra/v1"
 )
 
 // StackdriverAddonConfig configuration specific to Stackdriver integration.

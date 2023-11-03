@@ -3,8 +3,8 @@ package v2
 import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	"github.com/kuadrant/kuadrant-operator/api/external/maistra/status"
-	v1 "github.com/kuadrant/kuadrant-operator/api/external/maistra/v1"
+	"github.com/laurafitzgerald/kuadrant-operator/api/external/maistra/status"
+	v1 "github.com/laurafitzgerald/kuadrant-operator/api/external/maistra/v1"
 )
 
 const (

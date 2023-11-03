@@ -6,7 +6,7 @@ import (
 	_struct "google.golang.org/protobuf/types/known/structpb"
 	gatewayapiv1 "sigs.k8s.io/gateway-api/apis/v1"
 
-	kuadrantv1beta2 "github.com/kuadrant/kuadrant-operator/api/v1beta2"
+	kuadrantv1beta2 "github.com/laurafitzgerald/kuadrant-operator/api/v1beta2"
 )
 
 var (

@@ -34,9 +34,9 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/predicate"
 	gatewayapiv1 "sigs.k8s.io/gateway-api/apis/v1"
 
-	"github.com/kuadrant/kuadrant-operator/pkg/common"
-	kuadrantistioutils "github.com/kuadrant/kuadrant-operator/pkg/istio"
-	"github.com/kuadrant/kuadrant-operator/pkg/reconcilers"
+	"github.com/laurafitzgerald/kuadrant-operator/pkg/common"
+	kuadrantistioutils "github.com/laurafitzgerald/kuadrant-operator/pkg/istio"
+	"github.com/laurafitzgerald/kuadrant-operator/pkg/reconcilers"
 )
 
 // LimitadorClusterEnvoyFilterReconciler reconciles a EnvoyFilter object with limitador's cluster

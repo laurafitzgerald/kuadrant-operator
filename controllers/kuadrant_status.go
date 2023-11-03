@@ -16,8 +16,8 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/reconcile"
 
 	authorinov1beta1 "github.com/kuadrant/authorino-operator/api/v1beta1"
-	kuadrantv1beta1 "github.com/kuadrant/kuadrant-operator/api/v1beta1"
-	"github.com/kuadrant/kuadrant-operator/pkg/common"
+	kuadrantv1beta1 "github.com/laurafitzgerald/kuadrant-operator/api/v1beta1"
+	"github.com/laurafitzgerald/kuadrant-operator/pkg/common"
 )
 
 const (
