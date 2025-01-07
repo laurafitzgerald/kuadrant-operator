@@ -1,0 +1,5 @@
+resources:
+  - namespace.yaml
+  - istio-namespace.yaml
+  - istio-operator-init.yaml
+  - istio-operator.yaml
